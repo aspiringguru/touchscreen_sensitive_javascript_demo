@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <style>
+    #myElement {
+      background: silver;
+      height: 300px;
+      text-align: center;
+      font: 30px/300px Helvetica, Arial, sans-serif;
+    }
+    </style>
+    <script src="hammer.js"></script>
+  </head>
+  <body>
+    <!-- page content -->
+    <div id="myElement"></div>
+    <script>
+      document.getElementById('myElement');
+
+      // We create a manager object, which is the same as Hammer(), but without the presetted recognizers.
+      var mc = new Hammer.Manager(myElement);
+
+      // Default, tap recognizer
+      mc.add( new Hammer.Tap() );
+
+      // Tap recognizer with minimal 4 taps
+      mc.add( new Hammer.Tap({ event: 'quadrupletap', taps: 4 }) );
+
+      // we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
+      // the tap event will be emitted on every tap
+      mc.get('quadrupletap').recognizeWith('tap');
+
+
+      mc.on("tap quadrupletap", function(ev) {
+          myElement.textContent += ev.type +" ";
+      });
+    </script>
+  </body>
+</html>
